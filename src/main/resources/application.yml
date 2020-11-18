@@ -18,9 +18,6 @@ spring:
   jwt:
     secret: ADBFDAOGEB@N!%K#@J$K@!GMDS<M
 
-server:
-  port: 8081
-
 ---
 spring:
   datasource:
@@ -41,4 +38,4 @@ spring:
     secret: ADBFDAOGEB@N!%K#@J$K@!GMDS<M
 
 server:
-  port: 8081
+  port: 8082
