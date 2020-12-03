@@ -15,9 +15,6 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
 
-  jwt:
-    secret: ADBFDAOGEB@N!%K#@J$K@!GMDS<M
-
 ---
 spring:
   datasource:
@@ -33,9 +30,6 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
-
-  jwt:
-    secret: ADBFDAOGEB@N!%K#@J$K@!GMDS<M
 
 server:
   port: 8082
