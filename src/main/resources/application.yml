@@ -5,7 +5,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url : jdbc:mysql://localhost:3306/lundary?verifyServerCertificate=false&useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
     username : lundary
-    password : qwe1234~
+    password : Qwe1234~
 
   jpa:
     show-sql: true
@@ -14,9 +14,6 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
-
-  jwt:
-    secret: ADBFDAOGEB@N!%K#@J$K@!GMDS<M
 
 ---
 spring:
@@ -24,7 +21,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url : jdbc:mysql://localhost:3306/lundary?verifyServerCertificate=false&useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
     username : lundary
-    password : qwe1234~
+    password : Qwe1234~
 
   jpa:
     show-sql: true
@@ -34,5 +31,5 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
 
-  jwt:
-    secret: ADBFDAOGEB@N!%K#@J$K@!GMDS<M
+server:
+  port: 8082
