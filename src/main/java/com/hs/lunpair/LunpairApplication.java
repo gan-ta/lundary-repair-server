@@ -9,6 +9,7 @@ public class LunpairApplication {
 	public static final String APPLICATION_LOCATIONS = "spring.config.location="
 			+ "classpath:secret.yml,"
 			+ "classpath:application.yml,"
+			+ "/var/lib/jenkins/workspace/real-application.yml,"
 			+ "/var/lib/jenkins/workspace/secret.yml";
 
 	public static void main(String[] args) {
