@@ -1,5 +1,5 @@
 spring:
-  profiles: local
+  profiles: local22
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -14,5 +14,3 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
-
-
