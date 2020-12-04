@@ -1,5 +1,5 @@
 spring:
-  profiles: local1
+  profiles: local
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
