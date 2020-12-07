@@ -2,12 +2,14 @@ package com.hs.lunpair.domain.user.entity;
 
 import com.hs.lunpair.common.model.BaseEntity;
 import com.hs.lunpair.domain.user.dto.request.UserUpdateRequest;
+import com.hs.lunpair.domain.user.entity.enums.UserGender;
+import com.hs.lunpair.domain.user.entity.enums.UserRole;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
-//회원 정보 구현
+//회원 정보
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "tbl_user")
@@ -21,7 +23,7 @@ public class User extends BaseEntity {
     @Column(unique = true, name = "identity", nullable = false,length = 50)
     private String email;
 
-    @Column(name = "password", length = 100)
+    @Column(name = "password", length = 200,nullable = false)
     private String password;
 
     @Column(name = "name", nullable = false)
@@ -29,42 +31,40 @@ public class User extends BaseEntity {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "number",column = @Column(name = "homePhone"))
+            @AttributeOverride(name = "number",column = @Column(name = "phoneNumber1",nullable = false))
     })
-    private UserPhone homePhone = new UserPhone();
+    private UserPhone phoneNumber1 = new UserPhone();
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "number",column = @Column(name = "cellPhone"))
+            @AttributeOverride(name = "number",column = @Column(name = "phoneNumber2"))
     })
-    private UserPhone cellPhone = new UserPhone();
+    private UserPhone phoneNumber2 = new UserPhone();
 
-    @Column(name = "gender")
+    @Column(name = "gender",nullable = false)
     @Enumerated(value = EnumType.STRING)
     private UserGender userGender;
 
-    @Column(name = "role")
+    @Column(name = "role",nullable = false)
     @Enumerated(value = EnumType.STRING)
     private UserRole userRole;
 
-    @Column(name = "fcmToken")
-    private String fcmToken;
+//    @Column(name = "fcmToken")
+//    private String fcmToken;
+//
+//    @Column(name = "refreshToken", length = 500)
+//    private String refreshToken;
 
-    @Column(name = "refreshToken", length = 500)
-    private String refreshToken;
-
-    @Column(name = "role")
-
-    public void updateFcmToken(String fcmToken){
-        this.fcmToken = fcmToken;
-    }
+//    public void updateFcmToken(String fcmToken){
+//        this.fcmToken = fcmToken;
+//    }
 
     public void updatePw(String password){this.password = password;}
 
     public void updateUser(UserUpdateRequest userUpdateRequest){
         this.name = userUpdateRequest.getName();
-        this.homePhone = new UserPhone(userUpdateRequest.getHomePhoneNumber());
-        this.cellPhone = new UserPhone(userUpdateRequest.getCellPhoneNumber());
+        this.phoneNumber1 = new UserPhone(userUpdateRequest.getPhoneNumber1());
+        this.phoneNumber2 = new UserPhone(userUpdateRequest.getPhoneNumber2());
         this.userGender = userUpdateRequest.getUserGender();
     }
 }

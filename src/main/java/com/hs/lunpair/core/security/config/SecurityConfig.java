@@ -3,7 +3,7 @@ package com.hs.lunpair.core.security.config;
 import com.hs.lunpair.core.filter.JwtAuthenticationFilter;
 import com.hs.lunpair.core.security.jwt.JwtCore;
 import com.hs.lunpair.core.security.service.UserDetailsServiceImpl;
-import com.hs.lunpair.domain.user.entity.UserRole;
+import com.hs.lunpair.domain.user.entity.enums.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final HandlerExceptionResolver handlerExceptionResolver;
 
     private static final String[] AUTH_ARR = {
-            "/swagger-ui.html"
+            "/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "favicon.ico"
     };
 
     //이쪽 경로로 오는 것들은 시큐리티 무시 하겠다
@@ -41,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.httpBasic().disable()
-//                .csrf().disable() CSRF(Cross-Site Request Forgery)로부터 보호
+                .csrf().disable() //CSRF(Cross-Site Request Forgery)로부터 보호
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()

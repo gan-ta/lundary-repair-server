@@ -1,7 +1,6 @@
 package com.hs.lunpair.domain.user.dto.request;
 
-import com.hs.lunpair.common.validator.EnumValid;
-import com.hs.lunpair.domain.user.entity.UserGender;
+import com.hs.lunpair.domain.user.entity.enums.UserGender;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -14,12 +13,11 @@ public class UserUpdateRequest {
     @NotBlank(message = "이름을 입력해주세요")
     private String name;
 
-    private String homePhoneNumber;
+    @NotBlank(message = "필수 전화번호를 입력해주세요")
+    private String phoneNumber1;
 
-    @NotBlank(message = "휴대폰 번호를 입력해주세요")
-    private String cellPhoneNumber;
+    private String phoneNumber2;
 
     @NotBlank(message = "성별을 선택해주세요")
-    @EnumValid(enumClass = UserGender.class, message = "성별을 다시 한번 확인해주세요")
     private UserGender userGender;
 }

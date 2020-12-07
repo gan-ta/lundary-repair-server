@@ -1,7 +1,7 @@
 package com.hs.lunpair.core.security.service;
 
 import com.hs.lunpair.domain.user.dto.common.UserDetailsDto;
-import com.hs.lunpair.domain.user.entity.UserRole;
+import com.hs.lunpair.domain.user.entity.enums.UserRole;
 import com.hs.lunpair.domain.user.exception.UserNotFoundException;
 import com.hs.lunpair.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

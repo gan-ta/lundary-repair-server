@@ -1,4 +1,4 @@
-package com.hs.lunpair.domain.user.entity;
+package com.hs.lunpair.domain.user.entity.enums;
 
 import com.hs.lunpair.core.error.exception.UserDefineException;
 import lombok.Getter;
@@ -20,6 +20,6 @@ public enum UserGender {
     public static UserGender findByString(String gender){
         return Arrays.stream(UserGender.values())
                 .filter(userSex -> userSex.toString().equalsIgnoreCase(gender))
-                .findAny().orElseThrow(() -> new UserDefineException("UserSex 항목을 찾을 수 없습니다."));
+                .findAny().orElseThrow(() -> new UserDefineException("성별 항목을 찾을 수 없습니다."));
     }
 }

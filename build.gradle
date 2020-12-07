@@ -43,7 +43,9 @@ dependencies {
 	compile 'mysql:mysql-connector-java'
 
 	//유효성 검증
-	compile group: 'javax.validation', name: 'validation-api', version: '2.0.0.Final'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	//밑 의존성은 name 일부만 받아와서 안되는 것 같음
+//	compile group: 'javax.validation', name: 'validation-api', version: '2.0.0.Final'
 }
 
 test {
