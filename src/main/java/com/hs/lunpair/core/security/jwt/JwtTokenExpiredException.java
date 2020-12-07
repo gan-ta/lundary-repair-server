@@ -1,7 +1,7 @@
 package com.hs.lunpair.core.security.jwt;
 
 import com.hs.lunpair.core.error.exception.BusinessLogicException;
-import com.hs.lunpair.core.error.dto.ErrorCode;
+import com.hs.lunpair.core.error.enums.ErrorCode;
 
 public class JwtTokenExpiredException extends BusinessLogicException {
     public JwtTokenExpiredException() {

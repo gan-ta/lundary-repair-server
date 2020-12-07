@@ -1,4 +1,4 @@
-package com.hs.lunpair.core.error.dto;
+package com.hs.lunpair.core.error.enums;
 
 import lombok.Getter;
 
@@ -28,18 +28,23 @@ public enum ErrorCode {
      * 429 : Too Many Requests
      */
 
+    //global
+    INVALID_INPUT_VALUE("필수 입력값이 누락되었습니다.",400, "C001"),
+
     //user
-    USER_NOT_FOUND("유저를 찾을 수 없습니다.",404),
+    USER_NOT_FOUND("유저를 찾을 수 없습니다.",404, "C0033"),
 
     //jwt
-    JWT_TOKEN_EXPIRED("토큰이 만료되었습니다.", 401);
+    JWT_TOKEN_EXPIRED("토큰이 만료되었습니다.", 401, "C004");
 
 
     private String message;
     private int status;
+    private String code;
 
-    ErrorCode(String message, int status){
+    ErrorCode(String message, int status, String code){
         this.message = message;
         this.status = status;
+        this.code = code;
     }
 }

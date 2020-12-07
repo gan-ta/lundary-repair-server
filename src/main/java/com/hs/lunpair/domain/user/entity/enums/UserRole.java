@@ -1,4 +1,4 @@
-package com.hs.lunpair.domain.user.entity;
+package com.hs.lunpair.domain.user.entity.enums;
 
 import com.hs.lunpair.core.error.exception.UserDefineException;
 import lombok.Getter;
@@ -17,9 +17,9 @@ public enum UserRole {
     }
 
     //해당 문자열이 열거형에 존재하는지 확인 후 있으면 반환
-    public static UserGender findByString(String role){
-        return Arrays.stream(UserGender.values())
+    public static UserRole findByString(String role){
+        return Arrays.stream(UserRole.values())
                 .filter(userSex -> userSex.toString().equalsIgnoreCase(role))
-                .findAny().orElseThrow(() -> new UserDefineException("UserSex 항목을 찾을 수 없습니다."));
+                .findAny().orElseThrow(() -> new UserDefineException("유저 구분 항목을 찾을 수 없습니다."));
     }
 }
