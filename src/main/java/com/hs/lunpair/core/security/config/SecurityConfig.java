@@ -1,9 +1,11 @@
 package com.hs.lunpair.core.security.config;
 
+import com.hs.lunpair.core.filter.AccessDeniedHandlerCustom;
+import com.hs.lunpair.core.filter.AuthenticationEntryPointCustom;
 import com.hs.lunpair.core.filter.JwtAuthenticationFilter;
 import com.hs.lunpair.core.security.jwt.JwtCore;
 import com.hs.lunpair.core.security.service.UserDetailsServiceImpl;
-import com.hs.lunpair.domain.user.entity.UserRole;
+import com.hs.lunpair.domain.user.entity.enums.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,9 +28,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtCore jwtCore;
     private final HandlerExceptionResolver handlerExceptionResolver;
+    //필터 예외 처리를 위한 객체
+    private final AccessDeniedHandlerCustom accessDeniedHandlerCustom;
+    private final AuthenticationEntryPointCustom authenticationEntryPointCustom;
 
     private static final String[] AUTH_ARR = {
-            "/swagger-ui.html"
+            "/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "favicon.ico"
     };
 
     //이쪽 경로로 오는 것들은 시큐리티 무시 하겠다
@@ -41,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.httpBasic().disable()
-//                .csrf().disable() CSRF(Cross-Site Request Forgery)로부터 보호
+                .csrf().disable() //CSRF(Cross-Site Request Forgery)로부터 보호
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
@@ -49,6 +60,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v1/api/admin/**").hasRole(UserRole.ADMIN.toString())
                 .antMatchers("/v1/api/seller/**").hasRole(UserRole.SELLER.toString())
                 .anyRequest().permitAll()
+                .and()
+                //권한이 없을 때으 에러
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandlerCustom)
+                .and()
+                //로그인을 하지 않았을 때
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPointCustom)
                 .and()
                 //필터를 대치 해주겠다. 원래는 userName과 패스워드를 쳐서 들어가야 했지만
                 //여기에서는 토큰을 낚아채서 그 정보를 가지고 직접 auth 객체를 만들어서 context 홀더에 넣어주겠다

@@ -1,7 +1,7 @@
 package com.hs.lunpair.domain.user.dto.common;
 
 import com.hs.lunpair.domain.user.entity.User;
-import com.hs.lunpair.domain.user.entity.UserRole;
+import com.hs.lunpair.domain.user.entity.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

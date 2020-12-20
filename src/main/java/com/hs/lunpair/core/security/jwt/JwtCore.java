@@ -1,8 +1,7 @@
 package com.hs.lunpair.core.security.jwt;
 
-import com.hs.lunpair.core.error.exception.UserDefineException;
 import com.hs.lunpair.domain.user.entity.User;
-import com.hs.lunpair.domain.user.entity.UserRole;
+import com.hs.lunpair.domain.user.entity.enums.UserRole;
 import com.hs.lunpair.domain.user.exception.UserNotFoundException;
 import com.hs.lunpair.domain.user.repository.UserRepository;
 import io.jsonwebtoken.*;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
@@ -109,7 +107,7 @@ public class JwtCore {
      * @param userRole 회원의 역활
      * @return 사용자의 accessToken
      */
-    private String createAccessToken(String email, UserRole userRole){
+    public String createAccessToken(String email, UserRole userRole){
         Date issueDate = new Date();
         Date expireDate = new Date();
 
@@ -154,16 +152,14 @@ public class JwtCore {
                     .parseClaimsJws(accessToken);
             return true;
         }catch (SignatureException e) {
-            log.error("Invalid JWT signature");
+            throw new JwtTokenInvalidException("Invalid JWT signature");
         } catch (MalformedJwtException e) {
-            log.error("Invalid JWT token");
+            throw new JwtTokenInvalidException("Invalid JWT token");
         } catch (ExpiredJwtException e) {
-            log.error("Expired JWT token");
             throw new JwtTokenExpiredException();
         } catch (IllegalArgumentException e) {
-            log.error("Empty JWT claims");
+            throw new JwtTokenInvalidException("Invalid JWT claims");
         }
-        return false;
     }
 
     /**
@@ -185,7 +181,7 @@ public class JwtCore {
     public String findEmailByToken(String accessToken){
         return (String) Jwts.parser()
                 .setSigningKey(generateKey())
-                .parseClaimsJwt(accessToken)
+                .parseClaimsJws(accessToken)
                 .getBody()
                 .get(USER);//jwt secret키를 이용하여 토큰 body에 있는 정보를 가져옴
     }

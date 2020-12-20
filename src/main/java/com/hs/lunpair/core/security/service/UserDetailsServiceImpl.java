@@ -1,10 +1,11 @@
 package com.hs.lunpair.core.security.service;
 
 import com.hs.lunpair.domain.user.dto.common.UserDetailsDto;
-import com.hs.lunpair.domain.user.entity.UserRole;
+import com.hs.lunpair.domain.user.entity.enums.UserRole;
 import com.hs.lunpair.domain.user.exception.UserNotFoundException;
 import com.hs.lunpair.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -12,15 +13,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final HandlerExceptionResolver handlerExceptionResolver;
 
     /**
      * 이메일을 톻하여 유저를 찾음
@@ -30,13 +34,25 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserDetailsDto userDto = UserDetailsDto.toDto(
-          userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new)
-        );
+        UserDetailsDto userDto = UserDetailsDto.builder()
+                .email("not@not.com")
+                .password("not")
+                .role(UserRole.ADMIN)
+                .build();
+        try {
+            userDto = UserDetailsDto.toDto(
+                    userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new)
+            );
+            return new User(userDto.getEmail(),
+                    userDto.getPassword(),
+                    getAuthorities(userDto.getRole()));
 
-        return new User(userDto.getEmail(),
-                userDto.getPassword(),
-                getAuthorities(userDto.getRole()));
+        }catch (UserNotFoundException e){
+            log.error(e.getMessage());
+            return new User(userDto.getEmail(),
+                    userDto.getPassword(),
+                    getAuthorities(userDto.getRole()));
+        }
     }
 
     public Set<? extends GrantedAuthority> getAuthorities(UserRole role) {

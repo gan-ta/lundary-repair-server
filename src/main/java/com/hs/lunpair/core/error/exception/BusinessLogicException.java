@@ -1,6 +1,6 @@
 package com.hs.lunpair.core.error.exception;
 
-import com.hs.lunpair.core.error.dto.ErrorCode;
+import com.hs.lunpair.core.error.enums.ErrorCode;
 import lombok.Getter;
 
 @Getter

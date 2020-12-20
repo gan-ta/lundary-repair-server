@@ -3,12 +3,12 @@ package com.hs.lunpair.common.validator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class EnumValidator implements ConstraintValidator<EnumValid, String>{
+public class EnumValidator implements ConstraintValidator<Enum, String> {
 
-    private EnumValid annotation;
+    private Enum annotation;
 
     @Override
-    public void initialize(EnumValid constraintAnnotation) {
+    public void initialize(Enum constraintAnnotation) {
         this.annotation = constraintAnnotation;
     }
 
@@ -28,4 +28,5 @@ public class EnumValidator implements ConstraintValidator<EnumValid, String>{
         }
         return result;
     }
+
 }
