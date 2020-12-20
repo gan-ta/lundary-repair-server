@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Slf4j
-@Component
 @Aspect
+@Component
 public class ExceptionLogAspect {
     //AOP : 어떤 로직을 기준으로 핵심적인 관점, 부가적인 관점으로 나누어서 보고 그 관점을 기준으로 모듈화
     //=> 예외 처리의 모듈화

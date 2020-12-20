@@ -2,6 +2,7 @@ package com.hs.lunpair.core.filter;
 
 import com.hs.lunpair.core.security.jwt.JwtCore;
 import com.hs.lunpair.core.security.jwt.JwtTokenExpiredException;
+import com.hs.lunpair.core.security.jwt.JwtTokenInvalidException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,7 +41,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 Authentication auth = jwtCore.getAuthentication(token.get());
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
-        }catch (JwtTokenExpiredException e){
+        }catch (JwtTokenExpiredException | JwtTokenInvalidException e){
+            //시큐리티 예외처리
             handlerExceptionResolver.resolveException(request, response, null, e);
             return;
         }
