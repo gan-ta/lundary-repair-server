@@ -4,37 +4,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.hs.lunpair.common.model.ResponseData;
 import com.hs.lunpair.core.error.enums.ErrorCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 @Getter
 @NoArgsConstructor
-public class ErrorResponse {
+public class ErrorResponse extends ResponseData {
     private String message;
-    private int status;
     private List<ErrorResponseDetail> errors;
     private String code;
 
     private ErrorResponse(final ErrorCode code, final List<ErrorResponseDetail> errors) {
+        super(false,code.getStatus());
         this.message = code.getMessage();
-        this.status = code.getStatus();
         this.errors = errors;
         this.code = code.getCode();
     }
 
     private ErrorResponse(final ErrorCode code) {
+        super(false,code.getStatus());
         this.message = code.getMessage();
-        this.status = code.getStatus();
         this.code = code.getCode();
         this.errors = new ArrayList<>();
     }
 
-    private ErrorResponse(final String message){
+    public ErrorResponse(final String message){
+        super(false, HttpStatus.INTERNAL_SERVER_ERROR);
         this.message = message;
-        this.status = 0;
         this.code = "";
         this.errors = new ArrayList<>();
     }

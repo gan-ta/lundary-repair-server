@@ -1,6 +1,5 @@
 package com.hs.lunpair.domain.user.dto.request;
 
-import com.hs.lunpair.domain.user.entity.enums.UserGender;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -17,7 +16,4 @@ public class UserUpdateRequest {
     private String phoneNumber1;
 
     private String phoneNumber2;
-
-    @NotBlank(message = "성별을 선택해주세요")
-    private UserGender userGender;
 }

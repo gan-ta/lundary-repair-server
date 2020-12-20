@@ -152,16 +152,14 @@ public class JwtCore {
                     .parseClaimsJws(accessToken);
             return true;
         }catch (SignatureException e) {
-            log.error("Invalid JWT signature");
+            throw new JwtTokenInvalidException("Invalid JWT signature");
         } catch (MalformedJwtException e) {
-            log.error("Invalid JWT token");
+            throw new JwtTokenInvalidException("Invalid JWT token");
         } catch (ExpiredJwtException e) {
-            log.error("Expired JWT token");
             throw new JwtTokenExpiredException();
         } catch (IllegalArgumentException e) {
-            log.error("Empty JWT claims");
+            throw new JwtTokenInvalidException("Invalid JWT claims");
         }
-        return false;
     }
 
     /**
@@ -183,7 +181,7 @@ public class JwtCore {
     public String findEmailByToken(String accessToken){
         return (String) Jwts.parser()
                 .setSigningKey(generateKey())
-                .parseClaimsJwt(accessToken)
+                .parseClaimsJws(accessToken)
                 .getBody()
                 .get(USER);//jwt secret키를 이용하여 토큰 body에 있는 정보를 가져옴
     }

@@ -24,9 +24,9 @@ public class UserCreateRequest {
     @NotBlank(message = "이름을 입력해주세요")
     private String name;
 
+    @NotBlank(message = "필수 전화번호를 입력해주세요")
     private String phoneNumber1;
 
-    @NotBlank(message = "필수 전화번호를 입력해주세요")
     private String phoneNumber2;
 
     @Enum(enumClass = UserGender.class, ignoreCase = true,message = "정확한 성별을 입력해주세요")
@@ -34,8 +34,6 @@ public class UserCreateRequest {
 
     @Enum(enumClass = UserRole.class, ignoreCase = true,message = "정확한 역할을 확인해주세요")
     private String userRole;
-
-    @NotBlank
 
     public User of(String encodePassword){
         return User.builder()

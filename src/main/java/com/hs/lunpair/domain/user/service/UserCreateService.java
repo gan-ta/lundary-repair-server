@@ -1,11 +1,7 @@
 package com.hs.lunpair.domain.user.service;
 
-import com.hs.lunpair.domain.user.entity.BusinessInfo;
-import com.hs.lunpair.domain.user.entity.User;
-import org.springframework.stereotype.Service;
+import com.hs.lunpair.domain.user.dto.request.UserCreateRequest;
 
-@Service
 public interface UserCreateService {
-    String createUser(User user);
-    void createBusinessInfo(User user,BusinessInfo businessInfo);
+    String createUser(UserCreateRequest userCreateRequest);
 }

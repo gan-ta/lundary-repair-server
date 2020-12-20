@@ -10,13 +10,13 @@ import java.time.LocalDate;
 //사업자 정보
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "tbl_business_info")
+@Table(name = "tbl_user_business_info")
 @Entity
-@AttributeOverride(name = "id", column = @Column(name = "business_info_id"))
+@AttributeOverride(name = "id", column = @Column(name = "user_business_info_id"))
 @Where(clause = "deleted=0")
 @AllArgsConstructor
 @Builder
-public class BusinessInfo extends BaseEntity {
+public class UserBusinessInfo extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

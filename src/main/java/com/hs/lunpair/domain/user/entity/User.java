@@ -8,6 +8,8 @@ import lombok.*;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 //회원 정보
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,7 +19,6 @@ import javax.persistence.*;
 @AttributeOverride(name = "id", column = @Column(name = "user_id"))
 @Where(clause = "deleted=0")
 @AllArgsConstructor
-@Builder
 public class User extends BaseEntity {
 
     @Column(unique = true, name = "identity", nullable = false,length = 50)
@@ -49,6 +50,35 @@ public class User extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private UserRole userRole;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserBusinessInfo userBusinessInfo;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserAddress> userAddressList = new ArrayList<>();
+
+    @Builder
+    public User(Long id,
+                String email,
+                String password,
+                String name,
+                UserPhone phoneNumber1,
+                UserPhone phoneNumber2,
+                UserGender userGender,
+                UserRole userRole,
+                UserBusinessInfo userBusinessInfo,
+                List<UserAddress> userAddressList){
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.phoneNumber1 = phoneNumber1;
+        this.phoneNumber2 = phoneNumber2;
+        this.userGender = userGender;
+        this.userRole = userRole;
+        this.userBusinessInfo = userBusinessInfo;
+        this.userAddressList = userAddressList;
+    }
+
 //    @Column(name = "fcmToken")
 //    private String fcmToken;
 //
@@ -65,6 +95,5 @@ public class User extends BaseEntity {
         this.name = userUpdateRequest.getName();
         this.phoneNumber1 = new UserPhone(userUpdateRequest.getPhoneNumber1());
         this.phoneNumber2 = new UserPhone(userUpdateRequest.getPhoneNumber2());
-        this.userGender = userUpdateRequest.getUserGender();
     }
 }

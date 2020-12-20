@@ -1,12 +1,12 @@
 package com.hs.lunpair.domain.user.service.Impl;
 
 import com.hs.lunpair.core.security.jwt.JwtCore;
-import com.hs.lunpair.domain.user.entity.BusinessInfo;
+import com.hs.lunpair.domain.user.dto.request.UserCreateRequest;
 import com.hs.lunpair.domain.user.entity.User;
-import com.hs.lunpair.domain.user.repository.BusinessInfoRepository;
 import com.hs.lunpair.domain.user.repository.UserRepository;
 import com.hs.lunpair.domain.user.service.UserCreateService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,16 +14,13 @@ import org.springframework.stereotype.Service;
 public class UserCreateServiceImpl implements UserCreateService {
 
     private final UserRepository userRepository;
-    private final BusinessInfoRepository businessInfoRepository;
     private final JwtCore jwtCore;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public String createUser(User user) {
-        userRepository.save(user);
+    public String createUser(UserCreateRequest userCreateRequest) {
+        User user = userRepository.save(userCreateRequest.of(passwordEncoder.encode(userCreateRequest.getPassword())));
         return jwtCore.createAccessToken(user.getEmail(),user.getUserRole());
     }
 
-    @Override
-    public void createBusinessInfo(User user,BusinessInfo businessInfo) {
-    }
 }

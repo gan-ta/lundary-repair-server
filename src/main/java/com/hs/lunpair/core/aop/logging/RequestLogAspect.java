@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -13,16 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 @Slf4j
-@Component
 @Aspect
+@Component
 public class RequestLogAspect {
 
-    @Pointcut("execution(* com.hs.lunpair.domain.*.controller.*.*(..))")
-    public void loggerPointCut(){
-    }
-
-    @Around("loggerPointCut()")
-    public Object printRequestLog(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
+    @Around("@annotation(RequestLogging)")
+    public Object timeLog(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
         try{
             Object result = proceedingJoinPoint.proceed();
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
