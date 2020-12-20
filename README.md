@@ -1,6 +1,6 @@
 # your-fit
 
-##사용 기술
+## 사용 기술
 1. AWS EC2인스턴스와 Jenkins를 사용한 배포
 2. AWS RDS를 사용한 데이터베이스 사용
 3. JPA와 QueryDsl를 이용한 데이터베이스 연동
