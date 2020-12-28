@@ -1,0 +1,56 @@
+package com.hs.yourfit.core.error.handler;
+
+import com.hs.yourfit.core.error.enums.ErrorCode;
+import com.hs.yourfit.core.error.exception.UserDefineException;
+import com.hs.yourfit.core.error.response.ErrorResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.List;
+
+@Slf4j
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    /**
+     * 일반적인 예외를 처리
+     */
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleUnknownException(Exception e) {
+        log.error(e.getMessage());
+
+        final ErrorResponse response = ErrorResponse.of(e.getMessage());
+        return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * UserDefineException 예외를 커스터마이징하게 처리
+     */
+    @ExceptionHandler(UserDefineException.class)
+    public ResponseEntity handleUserDefineException(UserDefineException e) {
+        log.error(e.getMessage());
+
+        final ErrorResponse errorResponse = ErrorResponse.of(e.getMessage());
+        return new ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+
+    /**
+     * DTO 검증시 발생하는 예외 처리
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+        List<ObjectError> objectErrorList = e.getBindingResult().getAllErrors();
+        for(ObjectError objectError : objectErrorList) {
+            log.error(objectError.getDefaultMessage());
+        }
+
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
+        return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+    }
+}
